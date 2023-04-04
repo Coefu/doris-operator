@@ -35,13 +35,198 @@ spec:
           spec:
             description: ClusterSpec defines the desired state of Cluster
             properties:
-              foo:
-                description: Foo is an example field of Cluster. Edit cluster_types.go
-                  to remove/update
+              be:
+                properties:
+                  autoscaling:
+                    description: 'Should be able to cancel and open at any time TODO:
+                      This is an experimental feature and has not been implemented
+                      yet'
+                    type: boolean
+                  command:
+                    description: As the image changes, the command line may change
+                      with it
+                    items:
+                      type: string
+                    type: array
+                  image:
+                    description: It can be modified at run time because of version
+                      update requirements
+                    type: string
+                  replicas:
+                    description: Be Replicas can have an unlimited number of replicas,
+                      but are limited by network initialization, currently up to 150,
+                      and can Be increased by modifying the network capacity.
+                    format: int32
+                    type: integer
+                  resources:
+                    description: You can change it when the cluster is running
+                    properties:
+                      claims:
+                        description: "Claims lists the names of resources, defined
+                          in spec.resourceClaims, that are used by this container.
+                          \n This is an alpha field and requires enabling the DynamicResourceAllocation
+                          feature gate. \n This field is immutable."
+                        items:
+                          description: ResourceClaim references one entry in PodSpec.ResourceClaims.
+                          properties:
+                            name:
+                              description: Name must match the name of one entry in
+                                pod.spec.resourceClaims of the Pod where this field
+                                is used. It makes that resource available inside a
+                                container.
+                              type: string
+                          required:
+                          - name
+                          type: object
+                        type: array
+                        x-kubernetes-list-type: set
+                      limits:
+                        additionalProperties:
+                          anyOf:
+                          - type: integer
+                          - type: string
+                          pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          x-kubernetes-int-or-string: true
+                        description: 'Limits describes the maximum amount of compute
+                          resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
+                        type: object
+                      requests:
+                        additionalProperties:
+                          anyOf:
+                          - type: integer
+                          - type: string
+                          pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          x-kubernetes-int-or-string: true
+                        description: 'Requests describes the minimum amount of compute
+                          resources required. If Requests is omitted for a container,
+                          it defaults to Limits if that is explicitly specified, otherwise
+                          to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
+                        type: object
+                    type: object
+                  storage:
+                    description: It is not allowed to modify a cluster when it has
+                      already been created
+                    type: string
+                required:
+                - image
+                - replicas
+                type: object
+              fe:
+                properties:
+                  command:
+                    description: As the image changes, the command line may change
+                      with it
+                    items:
+                      type: string
+                    type: array
+                  domain:
+                    description: As the fe Web domain name, it can be changed at any
+                      time after the cluster runs
+                    type: string
+                  image:
+                    description: 'It can be modified at run time because of version
+                      update requirements TODO: This is an experimental feature and
+                      has not been implemented yet'
+                    type: string
+                  replicas:
+                    description: 'Fe replicas uses the Paxos protocol, but it can
+                      only be an odd number up to 9,like: 1,3,5,7,9'
+                    format: int32
+                    type: integer
+                  resources:
+                    description: You can change it when the cluster is running
+                    properties:
+                      claims:
+                        description: "Claims lists the names of resources, defined
+                          in spec.resourceClaims, that are used by this container.
+                          \n This is an alpha field and requires enabling the DynamicResourceAllocation
+                          feature gate. \n This field is immutable."
+                        items:
+                          description: ResourceClaim references one entry in PodSpec.ResourceClaims.
+                          properties:
+                            name:
+                              description: Name must match the name of one entry in
+                                pod.spec.resourceClaims of the Pod where this field
+                                is used. It makes that resource available inside a
+                                container.
+                              type: string
+                          required:
+                          - name
+                          type: object
+                        type: array
+                        x-kubernetes-list-type: set
+                      limits:
+                        additionalProperties:
+                          anyOf:
+                          - type: integer
+                          - type: string
+                          pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          x-kubernetes-int-or-string: true
+                        description: 'Limits describes the maximum amount of compute
+                          resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
+                        type: object
+                      requests:
+                        additionalProperties:
+                          anyOf:
+                          - type: integer
+                          - type: string
+                          pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          x-kubernetes-int-or-string: true
+                        description: 'Requests describes the minimum amount of compute
+                          resources required. If Requests is omitted for a container,
+                          it defaults to Limits if that is explicitly specified, otherwise
+                          to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
+                        type: object
+                    type: object
+                  storage:
+                    description: It is not allowed to modify a cluster when it has
+                      already been created
+                    type: string
+                required:
+                - image
+                - replicas
+                type: object
+              imagePullSecrets:
+                description: Can change it when the cluster is running
+                items:
+                  description: LocalObjectReference contains enough information to
+                    let you locate the referenced object inside the same namespace.
+                  properties:
+                    name:
+                      description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                        TODO: Add other useful fields. apiVersion, kind, uid?'
+                      type: string
+                  type: object
+                  x-kubernetes-map-type: atomic
+                type: array
+              storageClass:
+                description: It is not allowed to modify a cluster when it has already
+                  been created, If data needs to be migrated, manually migrate the
+                  data
                 type: string
+            required:
+            - be
+            - fe
             type: object
           status:
             description: ClusterStatus defines the observed state of Cluster
+            properties:
+              be-replicas:
+                format: int32
+                type: integer
+              brokers:
+                items:
+                  type: string
+                type: array
+              fe-replicas:
+                description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
+                  of cluster Important: Run "make" to regenerate code after modifying
+                  this file'
+                format: int32
+                type: integer
+            required:
+            - be-replicas
+            - fe-replicas
             type: object
         type: object
     served: true

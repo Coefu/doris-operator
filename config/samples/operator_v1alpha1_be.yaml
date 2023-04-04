@@ -1,0 +1,12 @@
+apiVersion: operator.doris.io/v1alpha1
+kind: Be
+metadata:
+  labels:
+    app.kubernetes.io/name: be
+    app.kubernetes.io/instance: be-sample
+    app.kubernetes.io/part-of: doris-operator
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/created-by: doris-operator
+  name: be-sample
+spec:
+  # TODO(user): Add fields here

@@ -8,6 +8,58 @@ rules:
 - apiGroups:
   - operator.doris.io
   resources:
+  - bes
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - operator.doris.io
+  resources:
+  - bes/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - operator.doris.io
+  resources:
+  - bes/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - operator.doris.io
+  resources:
+  - brokers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - operator.doris.io
+  resources:
+  - brokers/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - operator.doris.io
+  resources:
+  - brokers/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - operator.doris.io
+  resources:
   - clusters
   verbs:
   - create
@@ -27,6 +79,32 @@ rules:
   - operator.doris.io
   resources:
   - clusters/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - operator.doris.io
+  resources:
+  - ves
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - operator.doris.io
+  resources:
+  - ves/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - operator.doris.io
+  resources:
+  - ves/status
   verbs:
   - get
   - patch
