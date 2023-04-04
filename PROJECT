@@ -20,4 +20,31 @@ resources:
   kind: Cluster
   path: doris-operator/api/v1alpha1
   version: v1alpha1
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: doris.io
+  group: operator
+  kind: Be
+  path: doris-operator/api/v1alpha1
+  version: v1alpha1
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: doris.io
+  group: operator
+  kind: Fe
+  path: doris-operator/api/v1alpha1
+  version: v1alpha1
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: doris.io
+  group: operator
+  kind: Broker
+  path: doris-operator/api/v1alpha1
+  version: v1alpha1
 version: "3"
