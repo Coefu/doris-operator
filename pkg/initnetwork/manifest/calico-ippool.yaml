@@ -1,0 +1,8 @@
+apiVersion: crd.projectcalico.org/v1
+kind: IPPool
+metadata:
+   name: doris-ippool
+spec:
+   cidr: 192.168.168.0/24
+   ipipMode: Always
+   natOutgoing: true
