@@ -17,6 +17,10 @@ limitations under the License.
 package main
 
 import (
+	"doris-operator/controllers/bectl"
+	"doris-operator/controllers/brokerctl"
+	"doris-operator/controllers/clusterctl"
+	"doris-operator/controllers/fectl"
 	"flag"
 	"os"
 
@@ -32,7 +36,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
 	operatorv1alpha1 "doris-operator/api/v1alpha1"
-	"doris-operator/controllers"
 	//+kubebuilder:scaffold:imports
 )
 
@@ -89,28 +92,28 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err = (&controllers.ClusterReconciler{
+	if err = (&clusterctl.ClusterReconciler{
 		Client: mgr.GetClient(),
 		Scheme: mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "Cluster")
 		os.Exit(1)
 	}
-	if err = (&controllers.BeReconciler{
+	if err = (&bectl.BeReconciler{
 		Client: mgr.GetClient(),
 		Scheme: mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "Be")
 		os.Exit(1)
 	}
-	if err = (&controllers.FeReconciler{
+	if err = (&fectl.FeReconciler{
 		Client: mgr.GetClient(),
 		Scheme: mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "Fe")
 		os.Exit(1)
 	}
-	if err = (&controllers.BrokerReconciler{
+	if err = (&brokerctl.BrokerReconciler{
 		Client: mgr.GetClient(),
 		Scheme: mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
